@@ -22,7 +22,7 @@ steps:
     organization: 'stefan0552'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'stefan0552_be'
+    cliProjectKey: 'vue-basic'
     cliProjectName: 'vue-basic'
     cliSources: '.'
 
