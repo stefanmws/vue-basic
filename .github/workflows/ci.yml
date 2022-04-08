@@ -22,8 +22,8 @@ jobs:
     steps:
       - uses: Azure/pipelines@v1
         with:
-          azure-devops-project-url: 'https://dev.azure.com/trg-digital/digital-projects/'
-          azure-pipeline-name: 'fe-az-wagamama-web-ci-github' # name of the Azure pipeline to be triggered
+          azure-devops-project-url: 'https://dev.azure.com/stefan0552/TRG'
+          azure-pipeline-name: 'stefanmws.vue-basic.github' # name of the Azure pipeline to be triggered
           azure-devops-token: '${{ secrets.AZURE_DEVOPS_TOKEN }}'
           # azure-pipeline-variables:  '{"variable1": "value1", "variable2": "value2"}' # optional stringified json
 
