@@ -16,15 +16,15 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'SonarCloud'
-    organization: 'stefan0552'
-    scannerMode: 'CLI'
-    configMode: 'manual'
-    cliProjectKey: 'vue-basic'
-    cliProjectName: 'vue-basic'
-    cliSources: '.'
+# - task: SonarCloudPrepare@1
+#   inputs:
+#     SonarCloud: 'SonarCloud'
+#     organization: 'stefan0552'
+#     scannerMode: 'CLI'
+#     configMode: 'manual'
+#     cliProjectKey: 'vue-basic'
+#     cliProjectName: 'vue-basic'
+#     cliSources: '.'
 
 - script: |
     npm install
@@ -32,28 +32,42 @@ steps:
     npm run build
   displayName: 'npm ci, lint and build'
 
-- task: SonarCloudAnalyze@1
-
-- task: SonarCloudPublish@1
+- task: CopyFiles@2
+  displayName: 'Copy Files to Artifact Staging Directory'
   inputs:
-    pollingTimeoutSec: '300'
-
-- task: SnykSecurityScan@1
+    Contents: |
+      package.json
+      package-lock.json
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  
+- task: PublishPipelineArtifact@0
+  displayName: 'Export Build Artifact'
   inputs:
-    serviceConnectionEndpoint: 'Snyk'
-    testType: 'app'
-    monitorWhen: 'always'
-    failOnIssues: true
-    projectName: 'TRG/vue-basic'
-    organization: 'stefanmobilewaves.onmicrosoft.com'
+    targetPath: $(Build.ArtifactStagingDirectory)
+    artifactName: '$(Build.Repository.Name)'
 
-- task: WhiteSource@21
-  inputs:
-    cwd: '$(System.DefaultWorkingDirectory)'
-    projectName: 'vue-basic'
-    configuration: |
-      resolveAllDependencies=false
-      npm.resolveDependencies=true
-      npm.runPreStep=true
-      npm.includeDevDependencies=false
-      html.resolveDependencies=false
+# - task: SonarCloudAnalyze@1
+
+# - task: SonarCloudPublish@1
+#   inputs:
+#     pollingTimeoutSec: '300'
+
+# - task: SnykSecurityScan@1
+#   inputs:
+#     serviceConnectionEndpoint: 'Snyk'
+#     testType: 'app'
+#     monitorWhen: 'always'
+#     failOnIssues: true
+#     projectName: 'TRG/vue-basic'
+#     organization: 'stefanmobilewaves.onmicrosoft.com'
+
+# - task: WhiteSource@21
+#   inputs:
+#     cwd: '$(System.DefaultWorkingDirectory)'
+#     projectName: 'vue-basic'
+#     configuration: |
+#       resolveAllDependencies=false
+#       npm.resolveDependencies=true
+#       npm.runPreStep=true
+#       npm.includeDevDependencies=false
+#       html.resolveDependencies=false
